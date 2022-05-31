@@ -52,7 +52,7 @@ const eliminarMercado = async (req, res) => {
 
   if (imagen !== '/imagenes/sin-imagen.png') fs.unlinkSync(`public${imagen}`);
 
-  await Mercados.destroy({
+  const cantidad = await Mercados.destroy({
     where: {
       id,
     },
@@ -60,6 +60,7 @@ const eliminarMercado = async (req, res) => {
 
   return res.json({
     ok: true,
+    cantidad,
   });
 };
 

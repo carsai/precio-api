@@ -7,13 +7,8 @@ module.exports = {
     autoIncrement: true,
     primaryKey: true,
   },
-  nombre: {
-    type: DataTypes.STRING,
+  precio: {
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
-  },
-  imagen: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: '/imagenes/sin-imagen.png',
   },
 };

@@ -1,10 +1,13 @@
 const multer = require('multer');
 
-const subirImagen = (ubicacion) => multer(
+const subirImagen = (ubicacion, campo = 'imagen') => multer(
   {
+    fileFilter: (_req, file, cb) => {
+      cb(null, file.mimetype.includes('image'));
+    },
     storage: multer.diskStorage(
       {
-        destination: (req, file, cb) => cb(null, `public/imagenes/${ubicacion}`),
+        destination: (_req, _file, cb) => cb(null, `public/imagenes/${ubicacion}`),
         filename: (req, file, cb) => {
           const formato = file.originalname.match(/\.(.+)$/)[1];
           cb(null, `${req.body.nombre}.${formato}`);
@@ -13,6 +16,6 @@ const subirImagen = (ubicacion) => multer(
       },
     ),
   },
-).single('imagen');
+).single(campo);
 
 module.exports = subirImagen;
