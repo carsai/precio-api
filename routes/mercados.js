@@ -1,16 +1,19 @@
 const { Router } = require('express');
 const {
-  altaMercado, modificarMercado, eliminarMercado, getAllMercado,
+  altaMercado, modificarMercado, eliminarMercado, getAllMercado, getMercado,
 } = require('../controlador/mercados');
+const { validarMercado } = require('../validar/validaciones');
 
 const router = Router();
 
 router.get('/', getAllMercado);
 
-router.post('/', altaMercado);
+router.get('/:id', getMercado);
+
+router.post('/', validarMercado, altaMercado);
 
 router.put('/', modificarMercado);
 
-router.delete('/', eliminarMercado);
+router.delete('/:id', eliminarMercado);
 
 module.exports = router;

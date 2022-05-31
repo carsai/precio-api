@@ -1,32 +1,61 @@
+const { Mercados } = require('../db/config');
+
 /** @type {import("express").RequestHandler} */
-const altaMercado = (req, res) => {
-  res.json({
+const altaMercado = async (req, res) => {
+  const { nombre } = req.body;
+
+  const mercado = await Mercados.create({ nombre });
+
+  return res.json({
     ok: true,
-    accion: 'A',
+    mercado,
   });
 };
 
 /** @type {import("express").RequestHandler} */
-const modificarMercado = (req, res) => {
-  res.json({
+const modificarMercado = async (req, res) => {
+  const { id, nombre } = req.body;
+
+  const cantidad = await Mercados.update({ nombre }, { where: { id } });
+
+  return res.json({
     ok: true,
-    accion: 'M',
+    cantidad,
   });
 };
 
 /** @type {import("express").RequestHandler} */
-const eliminarMercado = (req, res) => {
-  res.json({
+const eliminarMercado = async (req, res) => {
+  const { id } = req.params;
+
+  await Mercados.destroy({
+    where: {
+      id,
+    },
+  });
+
+  return res.json({
     ok: true,
-    accion: 'E',
   });
 };
 
 /** @type {import("express").RequestHandler} */
-const getAllMercado = (req, res) => {
-  res.json({
+const getAllMercado = async (_req, res) => {
+  const mercados = await Mercados.findAll();
+  return res.json({
     ok: true,
-    accion: 'T',
+    mercados,
+  });
+};
+
+/** @type {import("express").RequestHandler} */
+const getMercado = async (req, res) => {
+  const { id } = req.params;
+
+  const mercado = await Mercados.findOne({ where: { id } });
+  return res.json({
+    ok: true,
+    mercado,
   });
 };
 
@@ -35,4 +64,5 @@ module.exports = {
   modificarMercado,
   eliminarMercado,
   getAllMercado,
+  getMercado,
 };

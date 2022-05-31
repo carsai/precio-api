@@ -2,7 +2,6 @@
 const altaProducto = (req, res) => {
   res.json({
     ok: true,
-    accion: 'A',
   });
 };
 
@@ -10,7 +9,6 @@ const altaProducto = (req, res) => {
 const modificarProducto = (req, res) => {
   res.json({
     ok: true,
-    accion: 'M',
   });
 };
 
@@ -18,7 +16,6 @@ const modificarProducto = (req, res) => {
 const eliminarProducto = (req, res) => {
   res.json({
     ok: true,
-    accion: 'E',
   });
 };
 
@@ -26,7 +23,6 @@ const eliminarProducto = (req, res) => {
 const getAllProducto = (req, res) => {
   res.json({
     ok: true,
-    accion: 'T',
   });
 };
 
