@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const {
   getAllProducto, altaProducto, modificarProducto, eliminarProducto,
-} = require('../controlador/productos');
+} = require('../controller/productos');
 
 const router = Router();
 

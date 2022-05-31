@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const {
   altaMercado, modificarMercado, eliminarMercado, getAllMercado, getMercado,
-} = require('../controlador/mercados');
-const { validarMercado } = require('../validar/validaciones');
+} = require('../controller/mercados');
+const { validarMercado } = require('../validator/validaciones');
 
 const router = Router();
 

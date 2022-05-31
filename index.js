@@ -13,7 +13,7 @@ app.use(cors({ origin: process.env.ORIGEN }));
 app.use(express.json());
 
 // Publico
-app.use(express.static('publico'));
+app.use(express.static('public'));
 
 // Routes
 app.use('/api/mercado', require('./routes/mercados'));
