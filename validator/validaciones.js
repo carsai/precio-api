@@ -1,6 +1,13 @@
 /** @type {import("express").RequestHandler} */
 const validarMercado = (req, res, next) => {
-  const { nombre } = req.body;
+  const { id, nombre } = req.body;
+
+  if (req.method === 'PUT' && !id) {
+    return res.json({
+      ok: false,
+      motivo: 'Id obligatorio',
+    });
+  }
 
   if (!nombre) {
     return res.json({

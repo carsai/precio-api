@@ -1,22 +1,42 @@
+const fs = require('fs');
 const { Mercados } = require('../db/config');
 
 /** @type {import("express").RequestHandler} */
 const altaMercado = async (req, res) => {
-  const { nombre } = req.body;
+  let mercado = req.body;
 
-  const mercado = await Mercados.create({ nombre });
+  if (req.file) {
+    mercado = {
+      ...mercado,
+      imagen: `${req.file.destination.match(/\/.+$/)[0]}/${req.file.filename}`,
+    };
+  }
+
+  const resultado = await Mercados.create(mercado);
 
   return res.json({
     ok: true,
-    mercado,
+    mercado: resultado,
   });
 };
 
 /** @type {import("express").RequestHandler} */
 const modificarMercado = async (req, res) => {
-  const { id, nombre } = req.body;
+  const { id, ...resto } = req.body;
 
-  const cantidad = await Mercados.update({ nombre }, { where: { id } });
+  let mercado = resto;
+
+  if (req.file) {
+    const imagenFinal = `${req.file.destination.match(/\/.+$/)[0]}/${req.file.filename}`;
+    const imagen = await (await Mercados.findOne({ where: { id } })).getDataValue('imagen');
+    if (imagen !== imagenFinal) fs.unlinkSync(`public${imagen}`);
+    mercado = {
+      ...mercado,
+      imagen: imagenFinal,
+    };
+  }
+
+  const cantidad = await Mercados.update(mercado, { where: { id } });
 
   return res.json({
     ok: true,
@@ -27,6 +47,10 @@ const modificarMercado = async (req, res) => {
 /** @type {import("express").RequestHandler} */
 const eliminarMercado = async (req, res) => {
   const { id } = req.params;
+
+  const imagen = await (await Mercados.findOne({ where: { id } })).getDataValue('imagen');
+
+  if (imagen !== '/imagenes/sin-imagen.png') fs.unlinkSync(`public${imagen}`);
 
   await Mercados.destroy({
     where: {

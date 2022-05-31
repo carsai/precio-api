@@ -14,6 +14,6 @@ module.exports = {
   imagen: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'sin-imagen-mercado.png',
+    defaultValue: '/imagenes/sin-imagen.png',
   },
 };
