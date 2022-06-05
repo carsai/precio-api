@@ -19,6 +19,7 @@ app.use(express.static('public'));
 // Routes
 app.use('/api/mercado', require('./routes/mercados'));
 app.use('/api/producto', require('./routes/productos'));
+app.use('/api/marca', require('./routes/marcas'));
 
 // eslint-disable-next-line no-console
 app.listen(process.env.PUERTO, () => console.log(`iniciado en puerto ${process.env.PUERTO}`));

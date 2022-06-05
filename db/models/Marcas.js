@@ -11,9 +11,6 @@ module.exports = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  direccion: {
-    type: DataTypes.STRING,
-  },
   imagen: {
     type: DataTypes.STRING,
     allowNull: false,
