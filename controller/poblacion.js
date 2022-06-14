@@ -12,25 +12,38 @@ const altaPoblacion = async (req, res) => {
       poblacion: resultado,
     });
   } catch (error) {
-    return res.json({
+    let mensaje = error;
+    let status = 400;
+
+    if (error.name === 'SequelizeForeignKeyConstraintError') {
+      mensaje = 'La provincia indicada no existe';
+    } else {
+      status = 500;
+    }
+
+    return res.status(status).json({
       ok: false,
-      error,
+      error: mensaje,
     });
   }
 };
 
 /** @type {import("express").RequestHandler} */
 const modificarPoblacion = async (req, res) => {
-  const { id, ...resto } = req.body;
+  const { id, ...poblacion } = req.body;
 
-  const poblacion = resto;
-
-  const cantidad = await Poblaciones.update(poblacion, { where: { id } });
-
-  return res.json({
-    ok: true,
-    cantidad,
-  });
+  try {
+    const cantidad = await Poblaciones.update(poblacion, { where: { id } });
+    return res.json({
+      ok: true,
+      cantidad,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error,
+    });
+  }
 };
 
 /** @type {import("express").RequestHandler} */
@@ -62,7 +75,18 @@ const getAllPoblacion = async (_req, res) => {
 const getPoblacion = async (req, res) => {
   const { id } = req.params;
 
-  const poblaciones = await Poblaciones.findOne({ where: { id } });
+  const poblacion = await Poblaciones.findOne({ where: { id } });
+  return res.json({
+    ok: true,
+    poblacion,
+  });
+};
+
+/** @type {import("express").RequestHandler} */
+const getPoblacionByProvincia = async (req, res) => {
+  const { id } = req.params;
+
+  const poblaciones = await Poblaciones.findAll({ where: { provinciaId: id } });
   return res.json({
     ok: true,
     poblaciones,
@@ -75,4 +99,5 @@ module.exports = {
   eliminarPoblacion,
   getAllPoblacion,
   getPoblacion,
+  getPoblacionByProvincia,
 };

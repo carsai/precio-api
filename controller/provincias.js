@@ -14,9 +14,7 @@ const altaProvincia = async (req, res) => {
 
 /** @type {import("express").RequestHandler} */
 const modificarProvincia = async (req, res) => {
-  const { id, ...resto } = req.body;
-
-  const provincia = resto;
+  const { id, ...provincia } = req.body;
 
   const cantidad = await Provincias.update(provincia, { where: { id } });
 
